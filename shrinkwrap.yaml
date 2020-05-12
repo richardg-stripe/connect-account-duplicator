@@ -1,0 +1,81 @@
+dependencies:
+  dotenv: 8.2.0
+  lodash: 4.17.15
+  mitm: 1.7.0
+  request-as-curl: 0.1.0
+  request-to-curl: 0.1.6
+  stripe: 8.51.0
+packages:
+  /@types/node/13.13.5:
+    dev: false
+    resolution:
+      integrity: sha512-3ySmiBYJPqgjiHA7oEaIo2Rzz0HrOZ7yrNO5HWyaE5q0lQ3BppDZ3N53Miz8bw2I7gh1/zir2MGVZBvpb1zq9g==
+  /dotenv/8.2.0:
+    dev: false
+    engines:
+      node: '>=8'
+    resolution:
+      integrity: sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
+  /http-parser-js/0.5.2:
+    dev: false
+    resolution:
+      integrity: sha512-opCO9ASqg5Wy2FNo7A0sxy71yGbbkJJXLdgMK04Tcypw9jr2MgWbyubb0+WdmDmGnFflO7fRbqbaihh/ENDlRQ==
+  /lodash/4.17.15:
+    dev: false
+    resolution:
+      integrity: sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
+  /mitm/1.7.0:
+    dependencies:
+      semver: 5.7.1
+      underscore: 1.5.2
+    dev: false
+    engines:
+      node: '>= 0.10.24'
+    resolution:
+      integrity: sha512-O6EjnhSf7dDq+pveB5WlRbaz34cZgQuRfey7RonqsD2QB//eVXniYnH5u8QMB6bG7BUIJofL7UPaopE3iYkKlA==
+  /qs/6.9.4:
+    dev: false
+    engines:
+      node: '>=0.6'
+    resolution:
+      integrity: sha512-A1kFqHekCTM7cz0udomYUoYNWjBebHm/5wzU/XqrBRBNWectVH0QIiN+NEcZ0Dte5hvzHwbr8+XQmguPhJ6WdQ==
+  /request-as-curl/0.1.0:
+    dev: false
+    engines:
+      node: '>= 0.8.0'
+    resolution:
+      integrity: sha1-8BesWyBg4cT8lndXXDgaCCSdW/c=
+  /request-to-curl/0.1.6:
+    dependencies:
+      http-parser-js: 0.5.2
+    dev: false
+    resolution:
+      integrity: sha512-bdFayFhQqLb+Z1YIOxQ4pOXLsSRJ0HUxolkjSZKKaGcajlxuf8ac2dRGaczz+eoCPbQ55B6xoJTSvPbyG85elQ==
+  /semver/5.7.1:
+    dev: false
+    hasBin: true
+    resolution:
+      integrity: sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==
+  /stripe/8.51.0:
+    dependencies:
+      '@types/node': 13.13.5
+      qs: 6.9.4
+    dev: false
+    engines:
+      node: ^8.1 || >=10.*
+    resolution:
+      integrity: sha512-4k4PRI9QnFCmYIl+mAU/HW4yq4+iRru3pJChzFWhUwQMLdSqlva2aXTiHiLfF5NUuHPuUoXZf64t6JwM+LvefA==
+  /underscore/1.5.2:
+    dev: false
+    resolution:
+      integrity: sha1-EzXF5PXm0zu7SwBrqMhqAPVW3gg=
+registry: 'https://registry.npmjs.org/'
+shrinkwrapMinorVersion: 9
+shrinkwrapVersion: 3
+specifiers:
+  dotenv: ^8.2.0
+  lodash: ^4.17.15
+  mitm: ^1.7.0
+  request-as-curl: ^0.1.0
+  request-to-curl: ^0.1.6
+  stripe: ^8.51.0
