@@ -1,5 +1,17 @@
 const _ = require("lodash");
 const stripe = require("./stripe");
+require('request-to-curl');
+const Mitm = require("mitm")
+
+const mitm = Mitm()
+
+mitm.on("request", function(req, res) {
+  debugger;
+  console.log(typeof req)
+  console.log(typeof res)
+  console.log(res.req.toCurl())
+})
+
 
 const makePayment = async amount => {
   return stripe.paymentIntents.create({

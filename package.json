@@ -12,6 +12,8 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "lodash": "^4.17.15",
+    "mitm": "^1.7.0",
+    "request-to-curl": "^0.1.6",
     "stripe": "^8.51.0"
   },
   "engines": {
