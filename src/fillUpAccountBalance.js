@@ -6,10 +6,9 @@ const Mitm = require("mitm")
 const mitm = Mitm()
 
 mitm.on("request", function(req, res) {
-  debugger;
-  console.log(typeof req)
-  console.log(typeof res)
-  console.log(res.req.toCurl())
+  console.log(res)
+  console.log(req.res.req.toCurl())
+  console.log(req.request.req.toCurl())
 })
 
 
