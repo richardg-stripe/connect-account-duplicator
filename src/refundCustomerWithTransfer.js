@@ -5,7 +5,7 @@ const stripe = require("./stripe");
 
 ;(async () => {
   try {
-    const paymentIntent = await makePayment(400000);
+    const paymentIntent = await stripe.;
     console.log(paymentIntent);
   } catch (error) {
     console.error(error);
