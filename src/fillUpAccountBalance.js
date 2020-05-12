@@ -1,14 +1,16 @@
 const _ = require("lodash");
 const stripe = require("./stripe");
-require('request-to-curl');
+const curlify = require('request-as-curl')
 const Mitm = require("mitm")
 
 const mitm = Mitm()
 
 mitm.on("request", function(req, res) {
-  console.log(res)
-  console.log(req.res.req.toCurl())
-  console.log(req.request.req.toCurl())
+  console.log(curlify(req))
+  console.log(curlify(res.req))
+  // console.log(res)
+  // console.log(req.res.req.toCurl())
+  // console.log(req.request.req.toCurl())
 })
 
 
