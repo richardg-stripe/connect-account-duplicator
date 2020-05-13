@@ -1,34 +1,17 @@
 {
-  "//1": "describes your app and its dependencies",
-  "//2": "https://docs.npmjs.com/files/package.json",
-  "//3": "updating this file will download and update your packages",
-  "name": "hello-express",
+  "name": "limited-payees-example",
   "version": "0.0.1",
-  "description": "A simple Node app built on Express, instantly up and running.",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "fillUpAccountBalance": "node src/fillUpAccountBalance.js"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
-    "http-to-curl": "^1.4.3",
     "lodash": "^4.17.15",
-    "mitm": "^1.7.0",
     "moment": "^2.25.3",
-    "request-as-curl": "^0.1.0",
-    "request-to-curl": "^0.1.6",
     "stripe": "^8.51.0"
   },
   "engines": {
     "node": "12.x"
-  },
-  "repository": {
-    "url": "https://glitch.com/edit/#!/hello-express"
-  },
-  "license": "MIT",
-  "keywords": [
-    "node",
-    "glitch",
-    "express"
-  ]
+  }
 }

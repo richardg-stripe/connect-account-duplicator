@@ -8,6 +8,8 @@ const stripe = require("./stripe");
 Business url? 
 Payout schedules
 Delay on funds clearing into balance
+Webhook events
+Is it recommended to manually update accounts in dashboard if things go wrong
 
 */
 

@@ -9,7 +9,7 @@ const makePayment = async amount => {
     payment_method_data: {
       type: "card",
       card: {
-        number: "4000 0000 0000 0077",
+        number: "4000 0000 0000 0077", // Skips delay on funds reaching balance
         exp_month: "12",
         exp_year: "24",
         cvc: "123"
