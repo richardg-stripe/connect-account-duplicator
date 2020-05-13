@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "main": "server.js",
   "scripts": {
-    "fillUpAccountBalance": "node src/fillUpAccountBalance.js"
+    "fillUpAccountBalance": "node src/fillUpAccountBalance.js",
+    "refundCustomerWithTransfer": "node src/refundCustomerWithTransfer.js"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
