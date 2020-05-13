@@ -9,6 +9,13 @@ const customerToRefund = {
     ip: "1.1.1.1",
     user_agent: "Chrome",
     service_agreement: "limited" // this is not documented in Stripe docs. Allows limited payees.
+  },
+  business_type: 'individual',
+  individual: {
+    address: {
+      line1: "21 Privet Drive",
+      postal_code: ""
+    }
   }
 };
 ;(async () => {
