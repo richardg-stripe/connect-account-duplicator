@@ -1,18 +1,5 @@
 const _ = require("lodash");
 const stripe = require("./stripe");
-const curlify = require('request-as-curl')
-const Mitm = require("mitm")
-
-const mitm = Mitm()
-
-mitm.on("request", function(req, res) {
-  console.log(curlify(req))
-  console.log(req)
-  // console.log(res)
-  // console.log(req.res.req.toCurl())
-  // console.log(req.request.req.toCurl())
-})
-
 
 const makePayment = async amount => {
   return stripe.paymentIntents.create({
@@ -22,7 +9,7 @@ const makePayment = async amount => {
     payment_method_data: {
       type: "card",
       card: {
-        number: "4242424242424242",
+        number: "4000 0000 0000 0077",
         exp_month: "12",
         exp_year: "24",
         cvc: "123"

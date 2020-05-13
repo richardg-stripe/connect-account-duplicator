@@ -7,7 +7,7 @@ const stripe = require("./stripe");
 
 Business url? 
 Payout schedules
-
+Delay on funds clearing into balance
 
 */
 
@@ -25,7 +25,7 @@ Payout schedules
       }
     });
 
-    console.log(uploadedPassport);
+    console.log('Uploaded Passport');
 
     var uploadedProofOfAddress = await stripe.files.create({
       purpose: "additional_verification",
@@ -35,6 +35,8 @@ Payout schedules
         type: "application/octet-stream"
       }
     });
+    
+    console.log('Uploaded Proof of Address');
 
     const account = await stripe.accounts.create({
       type: "custom",
@@ -81,14 +83,15 @@ Payout schedules
         }
       }
     });
-
-    await stripe.transfers.create({
+    
+    console.log('Created account', account);
+    
+    const transfer = await stripe.transfers.create({
       amount: 200000,
       currency: "GBP",
-      destination: account.id,
+      destination: account.id
     });
-    
-    console.log(account);
+    console.log("transfer", transfer);
   } catch (error) {
     console.error(error);
   }
