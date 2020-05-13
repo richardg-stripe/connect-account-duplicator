@@ -3,15 +3,6 @@ const moment = require("moment");
 const fs = require("fs");
 const stripe = require("./stripe");
 
-/* Questions 
-
-Business url? 
-Payout schedules
-Delay on funds clearing into balance
-Webhook events
-Is it recommended to manually update accounts in dashboard in edge case scenarios?
-
-*/
 
 (async () => {
   try {
