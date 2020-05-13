@@ -14,8 +14,15 @@ const customerToRefund = {
   individual: {
     address: {
       line1: "21 Privet Drive",
-      postal_code: ""
-    }
+      postal_code: "SU17 3SS"
+    },
+    dob: {
+      day: 1,
+      month: 1,
+      year: 2020,
+    },
+    first_name: "Mike",
+    last_name: "Brewer",
   }
 };
 ;(async () => {
