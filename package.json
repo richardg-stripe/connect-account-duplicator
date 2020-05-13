@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "dotenv": "^8.2.0",
+    "http-to-curl": "^1.4.3",
     "lodash": "^4.17.15",
     "mitm": "^1.7.0",
     "request-as-curl": "^0.1.0",

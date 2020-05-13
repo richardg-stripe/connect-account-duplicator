@@ -7,7 +7,7 @@ const mitm = Mitm()
 
 mitm.on("request", function(req, res) {
   console.log(curlify(req))
-  console.log(curlify(res.req))
+  console.log(req)
   // console.log(res)
   // console.log(req.res.req.toCurl())
   // console.log(req.request.req.toCurl())
