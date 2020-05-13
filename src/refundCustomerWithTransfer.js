@@ -4,10 +4,12 @@ const fs = require("fs");
 const stripe = require("./stripe");
 
 /* Questions 
+
 Business url? 
+Payout schedules
+
 
 */
-
 
 (async () => {
   try {
@@ -46,6 +48,16 @@ Business url?
         service_agreement: "limited" // this is not documented in Stripe docs. Allows limited payees.
       },
       business_type: "individual",
+      business_profile: {
+        url: "https://cazoo.co.uk/users/mike"
+      },
+      external_account: {
+        object: "bank_account",
+        country: "GB",
+        currency: "GBP",
+        account_number: "00012345",
+        routing_number: "108800" //sort code
+      },
       individual: {
         address: {
           line1: "10 Downing Street",
@@ -69,6 +81,13 @@ Business url?
         }
       }
     });
+
+    await stripe.transfers.create({
+      amount: 200000,
+      currency: "GBP",
+      destination: account.id,
+    });
+    
     console.log(account);
   } catch (error) {
     console.error(error);
