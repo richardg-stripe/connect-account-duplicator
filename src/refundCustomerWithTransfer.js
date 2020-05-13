@@ -53,7 +53,7 @@ Is it recommended to manually update accounts in dashboard in edge case scenario
       },
       business_type: "individual",
       business_profile: {
-        url: "https://cazoo.co.uk/users/mike"
+        url: "https://mySite.co.uk/users/mike"
       },
       external_account: {
         object: "bank_account",
