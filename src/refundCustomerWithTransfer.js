@@ -27,6 +27,19 @@ const customerToRefund = {
 };
 ;(async () => {
   try {
+    
+    const stripe = require('stripe')('sk_test_hqPTvJYV6mpeowjcaYzP1llc00RykaJPnP');
+
+var fp = fs.readFileSync('/path/to/a/file.jpg');
+var file = await stripe.files.create({
+  purpose: 'dispute_evidence',
+  file: {
+    data: fp,
+    name: 'file.jpg',
+    type: 'application/octet-stream',
+  },
+});
+    
     const account = await stripe.accounts.create({
       type: "custom",
       country: "GB",
