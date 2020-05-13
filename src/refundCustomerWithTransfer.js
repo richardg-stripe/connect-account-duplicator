@@ -9,7 +9,7 @@ Business url?
 Payout schedules
 Delay on funds clearing into balance
 Webhook events
-Is it recommended to manually update accounts in dashboard if things go wrong
+Is it recommended to manually update accounts in dashboard in edge case scenarios?
 
 */
 
