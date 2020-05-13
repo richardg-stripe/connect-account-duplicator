@@ -3,28 +3,23 @@ const moment = require("moment");
 const stripe = require("./stripe");
 
 const customerToRefund = {
-  email: 'mikebrewer@wheelerdealers.com',
+  email: "mikebrewer@wheelerdealers.com",
   tos_acceptance: {
-        date: moment().unix(),
-        ip: '1.1.1.1',
-        user_agent: 'netscape navigator lol',
+    date: moment().unix(),
+    ip: "1.1.1.1",
+    user_agent: "Chrome",
+    service_agreement: "limited" // this is not documented in Stripe docs. Allows limited payees.
   }
-}
-
-
-(async () => {
+};
+;(async () => {
   try {
-    const paymentIntent = await stripe.accounts.create({
+    const account = await stripe.accounts.create({
       type: "custom",
       country: "GB",
-      requested_capabilities: ["transfers"] // Transfers only - don't need payments
-      tos_acceptance: {
-      
-      }
-    }
+      requested_capabilities: ["transfers"], // Transfers only - don't need payments
       ...customerToRefund
     });
-    console.log(paymentIntent);
+    console.log(account);
   } catch (error) {
     console.error(error);
   }
