@@ -2,9 +2,11 @@ const _ = require("lodash");
 const moment = require("moment");
 const fs = require("fs");
 const stripe = require("./stripe");
+const logHttpRequestsAsCurl = require('./interceptHttpAsCurl')
 
+logHttpRequestsAsCurl()
 
-(async () => {
+;(async () => {
   try {
     var passport = fs.readFileSync("images/passport.png");
     var proofOfAddress = fs.readFileSync("images/proofOfAddress.png");
