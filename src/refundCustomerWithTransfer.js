@@ -37,7 +37,7 @@ logHttpRequestsAsCurl()
       type: "custom",
       country: "GB",
       requested_capabilities: ["transfers"], // Transfers only - don't need payments
-      email: "mikebrewer@wheelerdealers.com",
+      email: "mikebrewer@wheelerdealers.com", //not needed but helpful to identify customers!
       tos_acceptance: {
         date: moment().unix(),
         ip: "1.1.1.1", //mike's IP address
@@ -46,36 +46,36 @@ logHttpRequestsAsCurl()
       },
       business_type: "individual",
       business_profile: {
-        url: "https://mySite.co.uk/users/mike"
+        product_description: "Refund Mike for Part Exchange Vehicle"
       },
-      external_account: {
-        object: "bank_account",
-        country: "GB",
-        currency: "GBP",
-        account_number: "00012345",
-        routing_number: "108800" //sort code
-      },
+      // external_account: {
+      //   object: "bank_account",
+      //   country: "GB",
+      //   currency: "GBP",
+      //   account_number: "00012345",
+      //   routing_number: "108800" //sort code
+      // },
       individual: {
-        address: {
-          line1: "10 Downing Street",
-          country: "GB",
-          postal_code: "SW1A 2AA"
-        },
-        dob: {
-          day: 1,
-          month: 1,
-          year: 1970
-        },
+        // address: {
+        //   line1: "11 Downing Street",
+        //   country: "GB",
+        //   postal_code: "SW1A 2AA"
+        // },
+        // dob: {
+        //   day: 1,
+        //   month: 1,
+        //   year: 1970
+        // },
         first_name: "Mike",
         last_name: "Brewer",
-        verification: {
-          document: {
-            front: uploadedPassport.id
-          },
-          additional_document: {
-            front: uploadedProofOfAddress.id
-          }
-        }
+        // verification: {
+        //   document: {
+        //     front: uploadedPassport.id
+        //   },
+        //   additional_document: {
+        //     front: uploadedProofOfAddress.id
+        //   }
+        // }
       }
     });
     
