@@ -48,24 +48,24 @@ logHttpRequestsAsCurl()
       business_profile: {
         product_description: "Refund Mike for Part Exchange Vehicle"
       },
-      // external_account: {
-      //   object: "bank_account",
-      //   country: "GB",
-      //   currency: "GBP",
-      //   account_number: "00012345",
-      //   routing_number: "108800" //sort code
-      // },
+      external_account: {
+        object: "bank_account",
+        country: "GB",
+        currency: "GBP",
+        account_number: "00012345",
+        routing_number: "108800" //sort code
+      },
       individual: {
-        // address: {
-        //   line1: "11 Downing Street",
-        //   country: "GB",
-        //   postal_code: "SW1A 2AA"
-        // },
-        // dob: {
-        //   day: 1,
-        //   month: 1,
-        //   year: 1970
-        // },
+        address: {
+          line1: "11 Downing Street",
+          country: "GB",
+          postal_code: "SW1A 2AA"
+        },
+        dob: {
+          day: 1,
+          month: 1,
+          year: 1970
+        },
         first_name: "Mike",
         last_name: "Brewer",
         // verification: {
