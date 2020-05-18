@@ -40,7 +40,7 @@ logHttpRequestsAsCurl()
       email: "mikebrewer@wheelerdealers.com",
       tos_acceptance: {
         date: moment().unix(),
-        ip: "1.1.1.1",
+        ip: "1.1.1.1", //mike's IP address
         user_agent: "Chrome",
         service_agreement: "limited" // this is not documented in Stripe docs. Allows limited payees.
       },
