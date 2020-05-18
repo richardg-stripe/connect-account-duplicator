@@ -68,14 +68,14 @@ logHttpRequestsAsCurl()
         },
         first_name: "Mike",
         last_name: "Brewer",
-        // verification: {
-        //   document: {
-        //     front: uploadedPassport.id
-        //   },
-        //   additional_document: {
-        //     front: uploadedProofOfAddress.id
-        //   }
-        // }
+        verification: {
+          document: {
+            front: uploadedPassport.id
+          },
+          additional_document: {
+            front: uploadedProofOfAddress.id
+          }
+        }
       }
     });
     
