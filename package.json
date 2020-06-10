@@ -4,7 +4,7 @@
   "main": "server.js",
   "scripts": {
     "fillUpAccountBalance": "node src/fillUpAccountBalance.js",
-    "refundCustomerWithTransfer": "node src/refundCustomerWithTransfer.js"
+    "createAccount": "node src/createAccount.js"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
