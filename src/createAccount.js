@@ -72,7 +72,11 @@ logHttpRequestsAsCurl()
     });
     
     console.log('Created account', account);
-
+    const capabilities = await stripe.accounts.retrieveCapability(
+      account.id, 'transfers'
+     
+    );
+    console.log('capabilities', JSON.stringify(capabilities, null, 2))
   } catch (error) {
     console.error(error);
   }
