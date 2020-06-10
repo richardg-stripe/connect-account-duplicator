@@ -44,9 +44,9 @@ logHttpRequestsAsCurl()
         user_agent: "Chrome",
       },
       business_type: "individual",
-      business_profile: {
-        product_description: "Refund Mike for Part Exchange Vehicle"
-      },
+      // business_profile: {
+      //   product_description: "Refund Mike for Part Exchange Vehicle"
+      // },
       individual: {
         // address: {
         //   line1: "11 Downing Street",
