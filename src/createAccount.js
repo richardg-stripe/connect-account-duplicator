@@ -35,7 +35,7 @@ logHttpRequestsAsCurl()
 
     const account = await stripe.accounts.create({
       type: "custom",
-      country: "BE",
+      country: "NL",
       requested_capabilities: ["transfers"], // Transfers only - don't need payments
       email: "mikebrewer@wheelerdealers.com", //not needed but helpful to identify customers!
       tos_acceptance: {
@@ -44,19 +44,20 @@ logHttpRequestsAsCurl()
         user_agent: "Chrome",
       },
       business_type: "individual",
-      // business_profile: {
-      //   product_description: "Refund Mike for Part Exchange Vehicle"
-      // },
+      business_profile: {
+        product_description: "Mike Brewer UW Seller"
+      },
       individual: {
-        // address: {
-        //   line1: "11 Downing Street",
-        //   country: "GB",
-        //   postal_code: "SW1A 2AA"
-        // },
+        address: {
+          line1: "address_full_match",
+          city: 'Amsterdam',
+          country: "NL",
+          postal_code: "1013gm"
+        },
         dob: {
           day: 1,
           month: 1,
-          year: 1970
+          year: 1901
         },
         first_name: "Mike",
         last_name: "Brewer",
