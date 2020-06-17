@@ -7,35 +7,11 @@ const logHttpRequestsAsCurl = require("./interceptHttpAsCurl");
 logHttpRequestsAsCurl();
 (async () => {
   try {
-    // var passport = fs.readFileSync("images/passport.png");
-    // var proofOfAddress = fs.readFileSync("images/proofOfAddress.png");
-
-    // var uploadedPassport = await stripe.files.create({
-    //   purpose: "identity_document",
-    //   file: {
-    //     data: passport,
-    //     name: "passport.png",
-    //     type: "application/octet-stream"
-    //   }
-    // });
-
-    // console.log('Uploaded Passport');
-
-    // var uploadedProofOfAddress = await stripe.files.create({
-    //   purpose: "additional_verification",
-    //   file: {
-    //     data: proofOfAddress,
-    //     name: "proofOfAddress.png",
-    //     type: "application/octet-stream"
-    //   }
-    // });
-
-    // console.log('Uploaded Proof of Address');
 
     const account = await stripe.accounts.create({
       type: "custom",
       country: "NL",
-      requested_capabilities: ["transfers"], // Transfers only - don't need payments
+      requested_capabilities: ["transfers"], 
       tos_acceptance: {
         date: moment().unix(),
         ip: "1.1.1.1", //mike's IP address
