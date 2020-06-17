@@ -2,7 +2,14 @@
 
 Docs: https://stripe.com/docs/connect/testing#test-dobs
 
-## Ct
+## Create an account which succeeds verification
+
+See the code in [src/createAccount.js](https://glitch.com/edit/#!/uw-stripe-account-demo?path=src%2FcreateAccount.js%3A37%3A15)
+
+```
+npm install
+npm run createAccount
+```
 
 ## Monitoring webhooks
 
