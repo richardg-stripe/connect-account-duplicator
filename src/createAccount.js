@@ -44,22 +44,25 @@ const successfulAccount = {
   }
 };
 
-
 const addressFailsAccount = {
   ...successfulAccount,
   individual: {
     ...successfulAccount.individual,
     address: {
-      ......successfulAccount.individual.address,
-      line1: "address_full_match", // fails address check
-    },
+      ...successfulAccount.individual.address,
+      line1: "address_full_match" // fails address check
+    }
   }
-}
-
-(async () => {
+}(async () => {
   try {
     const account = await stripe.accounts.create(successfulAccount);
 
+    const accountLink = await stripe.accountLinks.create({
+      account: account.id,
+      failure_url: "https://example.com/failure",
+      success_url: "https://example.com/success",
+      type: "custom_account_verification"
+    });
     console.log("Created account", account);
   } catch (error) {
     console.error(error);
