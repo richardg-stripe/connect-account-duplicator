@@ -1,37 +1,46 @@
 const _ = require("lodash");
 const moment = require("moment");
 const stripe = require("./stripe");
-const { successfulAccount, idFailsAccount, addressFailsAccount, germanExternalAccount } = require("./exampleAccounts");
+const {
+  successfulAccount,
+  idFailsAccount,
+  addressFailsAccount,
+  germanExternalAccount
+} = require("./exampleAccounts");
 
-const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-
-const createAndUpdateAccount = (createObject, updateObject) => {
-  console.log('creating account')
-  let account = await stripe.accounts.create(addressFailsAccount);
-  await delay(1000 * 60)
-  console.log('updating account')
-  account = await stripe.accounts.update(account.id, {
-    individual: {
-      address: successfulAccount.individual.address
-    }
-  });
-  console.log("Updated account", account);
+const keypress = async () => {
+  process.stdin.setRawMode(true)
+  return new Promise(resolve => process.stdin.once('data', () => {
+    process.stdin.setRawMode(false)
+    resolve()
+  }))
 }
 
-;(async () => {
+const createAndUpdateAccount = async (createObject, updateObject) => {
+  console.log("creating account");
+  let account = await stripe.accounts.create(createObject);
+  console.log('press any key to continue with account update')
+  await keypress();
+  console.log("updating account");
+  account = await stripe.accounts.update(account.id, updateObject);
+  console.log("Updated account", account);
+};
+
+(async () => {
   try {
-    console.log('creating account')
-    let account = await stripe.accounts.create(addressFailsAccount);
-    await delay(1000 * 60)
-    console.log('updating account')
-    account = await stripe.accounts.update(account.id, {
+    // createAndUpdateAccount(addressFailsAccount, {
+    //   individual: {
+    //     address: successfulAccount.individual.address
+    //   }
+    // });
+
+    createAndUpdateAccount(idFailsAccount, {
       individual: {
-        address: successfulAccount.individual.address
+        dob: successfulAccount.individual.dob
       }
     });
-
-    console.log("Created account", account);
   } catch (error) {
     console.error(error);
   }
