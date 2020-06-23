@@ -50,21 +50,28 @@ const addressFailsAccount = {
     ...successfulAccount.individual,
     address: {
       ...successfulAccount.individual.address,
-      line1: "address_full_match" // fails address check
+      line1: "address_no_match" // fails address check
     }
   }
-}(async () => {
-  try {
-    const account = await stripe.accounts.create(successfulAccount);
+}
+const germanExternalAccount = {
+  ...successfulAccount,
+  external_account: {
+    ...successfulAccount.external_account,
+    country: 'DE',
+    account_number: 'DE89370400440532013000'
+  }
+}
 
-    const accountLink = await stripe.accountLinks.create({
-      account: account.id,
-      failure_url: "https://example.com/failure",
-      success_url: "https://example.com/success",
-      type: "custom_account_verification"
-    });
+;(async () => {
+  try {
+    const account = await stripe.accounts.create(germanExternalAccount);
+
     console.log("Created account", account);
   } catch (error) {
     console.error(error);
   }
 })();
+
+
+module.exports = {successfulAccount, addressFailsAccount}

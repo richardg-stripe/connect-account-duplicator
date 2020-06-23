@@ -4,7 +4,8 @@
   "main": "server.js",
   "scripts": {
     "fillUpAccountBalance": "node src/fillUpAccountBalance.js",
-    "createAccount": "node src/createAccount.js"
+    "createAccount": "node src/createAccount.js",
+    "updateAccount": "node src/updateAccount.js"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
