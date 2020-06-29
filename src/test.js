@@ -36,12 +36,21 @@ const createAccount = async (createObject) => {
 
     const account = await createAccount(idFailsAccount);
     await stripe.charges.create({
-      amount: 1000,
+      amount: 251000,
       currency: 'eur',
       transfer_data: {
         destination: account.id
       },
-      source: 'tok_visa_triggerChargeBlock'
+      source: 'tok_bypassPending'
+    })
+    await keypress();
+    await stripe.charges.create({
+      amount: 251000,
+      currency: 'eur',
+      transfer_data: {
+        destination: account.id
+      },
+      source: 'tok_bypassPending'
     })
   } catch (error) {
     console.error(error);
