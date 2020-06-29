@@ -18,14 +18,12 @@ const keypress = async () => {
   }))
 }
 
-const createAndUpdateAccount = async (createObject, updateObject) => {
+const createAccount = async (createObject) => {
   console.log("creating account");
-  let account = await stripe.accounts.create(createObject);
+  const account = await stripe.accounts.create(createObject);
   console.log('press any key to continue with account update')
   await keypress();
-  console.log("updating account");
-  account = await stripe.accounts.update(account.id, updateObject);
-  console.log("Updated account", account);
+  return account
 };
 
 (async () => {
@@ -36,11 +34,15 @@ const createAndUpdateAccount = async (createObject, updateObject) => {
     //   }
     // });
 
-    createAndUpdateAccount(idFailsAccount, {
-      individual: {
-        dob: successfulAccount.individual.dob
-      }
-    });
+    const account = await createAccount(idFailsAccount);
+    await stripe.charges.create({
+      amount: 1000,
+      currency: 'eur',
+      transfer_data: {
+        destination: account.id
+      },
+      source: 'tok_visa_triggerChargeBlock'
+    })
   } catch (error) {
     console.error(error);
   }
