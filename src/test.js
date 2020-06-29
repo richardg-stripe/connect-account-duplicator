@@ -44,13 +44,10 @@ const createAccount = async (createObject) => {
       source: 'tok_bypassPending'
     })
     await keypress();
-    await stripe.charges.create({
-      amount: 251000,
+    await stripe.transfers.create({
+      amount: 1000,
       currency: 'eur',
-      transfer_data: {
-        destination: account.id
-      },
-      source: 'tok_bypassPending'
+      destination: account.id
     })
   } catch (error) {
     console.error(error);
