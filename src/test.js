@@ -28,12 +28,6 @@ const createAccount = async (createObject) => {
 
 (async () => {
   try {
-    // createAndUpdateAccount(addressFailsAccount, {
-    //   individual: {
-    //     address: successfulAccount.individual.address
-    //   }
-    // });
-
     const account = await createAccount(idFailsAccount);
     await stripe.charges.create({
       amount: 251000,
