@@ -5,7 +5,8 @@ const {
   successfulAccount,
   idFailsAccount,
   addressFailsAccount,
-  germanExternalAccount
+  germanExternalAccount,
+  minorAccount
 } = require("./exampleAccounts");
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -30,7 +31,7 @@ const createAccount = async createObject => {
 
 (async () => {
   try {
-    const account = await createAccount(addressFailsAccount);
+    const account = await createAccount(minorAccount);
     const accountLink = await stripe.accountLinks.create({
       account: account.id,
       refresh_url: "https://example.com/reauth",

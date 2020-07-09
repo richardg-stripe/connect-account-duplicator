@@ -67,6 +67,18 @@ const idFailsAccount = {
   }
 }
 
+const minorAccount = {
+  ...successfulAccount,
+  individual: {
+    ...successfulAccount.individual,
+    dob: {
+      day: 1,
+      month: 1,
+      year: 2004
+    },
+  }
+}
+
 const germanExternalAccount = {
   ...successfulAccount,
   external_account: {
@@ -78,4 +90,4 @@ const germanExternalAccount = {
 
 
 
-module.exports = {successfulAccount, idFailsAccount, addressFailsAccount, germanExternalAccount}
+module.exports = {successfulAccount, idFailsAccount, addressFailsAccount, germanExternalAccount, minorAccount}
