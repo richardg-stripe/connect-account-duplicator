@@ -31,7 +31,7 @@ const createAccount = async createObject => {
 
 (async () => {
   try {
-    const account = await createAccount(minorAccount);
+    const account = await createAccount(addressFailsAccount);
     const accountLink = await stripe.accountLinks.create({
       account: account.id,
       refresh_url: "https://example.com/reauth",
