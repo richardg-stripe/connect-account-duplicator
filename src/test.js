@@ -36,7 +36,7 @@ const createAccount = async createObject => {
       account: account.id,
       refresh_url: "https://example.com/reauth",
       return_url: "https://example.com/return",
-      type: "custom_account_verification"
+      type: "custom_account_update"
     });
     console.log(accountLink)
     await keypress();
