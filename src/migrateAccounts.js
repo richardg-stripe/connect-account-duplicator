@@ -23,39 +23,25 @@ const createAccount = async createObject => {
   return account;
 };
 
-const findRestrictedAccountsToMigrate = () => {
-  
+const doesAccountNeedMigration = (account) => {
+  console.log(account)
+  return true
+}
+
+const findRestrictedAccountsToMigrate = async () => {
+  const accounts = []
+  for await (const account of stripe.accounts.list({limit: 3})) {
+    if (doesAccountNeedMigration(account)) {
+      accounts.push(account)
+    }
+  }
+  return accounts
 }
 
 
 (async () => {
   try {
-    const account = await stripe.accounts.create(createObject);
-    const accountLink = await stripe.accountLinks.create({
-      account: account.id,
-      refresh_url: "https://example.com/reauth",
-      return_url: "https://example.com/return",
-      type: "custom_account_update"
-    });
-    console.log(accountLink)
-    await keypress();
-    await stripe.charges.create({
-      amount: 251000,
-      currency: "eur",
-      transfer_data: {
-        destination: account.id
-      },
-      source: "tok_visa_triggerNextRequirements"
-    });
-    await keypress();
-    await stripe.charges.create({
-      amount: 251000,
-      currency: "eur",
-      transfer_data: {
-        destination: account.id
-      },
-      source: "tok_visa_triggerNextRequirements"
-    });
+    console.log(await findRestrictedAccountsToMigrate())
   } catch (error) {
     console.error(error);
   }

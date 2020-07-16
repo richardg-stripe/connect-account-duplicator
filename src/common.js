@@ -1,4 +1,4 @@
-export const keypress = async () => {
+const keypress = async () => {
   process.stdin.setRawMode(true);
   return new Promise(resolve =>
     process.stdin.once("data", () => {
@@ -7,3 +7,6 @@ export const keypress = async () => {
     })
   );
 };
+
+
+module.exports = {keypress}
