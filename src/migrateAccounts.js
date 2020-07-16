@@ -1,3 +1,4 @@
+const fs = require("fs");
 const _ = require("lodash");
 const moment = require("moment");
 const stripe = require("./stripe");
@@ -41,7 +42,8 @@ const findRestrictedAccountsToMigrate = async () => {
 (async () => {
   try {
     const accountsToMigrate = await findRestrictedAccountsToMigrate()
-    console.log(JSON.stringify(accountsToMigrate ,null ,2));
+    console.log(JSON.stringify(accountsToMigrate, null, 2));
+    fs.writeFileSync('./accountsToMigrate.json', JSON.stringify(accountsToMigrate, null, 2))
   } catch (error) {
     console.error(error);
   }
