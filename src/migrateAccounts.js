@@ -8,12 +8,7 @@ const {
   germanExternalAccount,
   minorAccount
 } = require("./exampleAccounts");
-const {
-  keypress
-} = require("./common");
-
-
-
+const { keypress } = require("./common");
 
 const createAccount = async createObject => {
   console.log("creating account");
@@ -23,25 +18,30 @@ const createAccount = async createObject => {
   return account;
 };
 
-const doesAccountNeedMigration = (account) => {
-  console.log(account)
-  return true
-}
+const doesAccountNeedMigration = async account => {
+  console.log(account);
+  const transfersResponse = await stripe.transfers.list({
+    destination: account.id,
+    limit: 3
+  });
+  console.log(transfersResponse)
+  return _.isEmpty(transfersResponse.data) && !account.payouts_enabled;
+};
 
 const findRestrictedAccountsToMigrate = async () => {
-  const accounts = []
-  for await (const account of stripe.accounts.list({limit: 3})) {
-    if (doesAccountNeedMigration(account)) {
-      accounts.push(account)
+  const accounts = [];
+  for await (const account of stripe.accounts.list({ limit: 3 })) {
+    if (await doesAccountNeedMigration(account)) {
+      accounts.push(account);
     }
   }
-  return accounts
-}
-
+  return accounts;
+};
 
 (async () => {
   try {
-    console.log(await findRestrictedAccountsToMigrate())
+    const accountsToMigrate = await findRestrictedAccountsToMigrate()
+    console.log(JSON.stringify(accountsToMigrate ,null ,2));
   } catch (error) {
     console.error(error);
   }
