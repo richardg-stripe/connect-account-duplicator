@@ -2,13 +2,13 @@ const _ = require("lodash");
 const moment = require("moment");
 const stripe = require("./stripe");
 const logHttpRequestsAsCurl = require("./interceptHttpAsCurl");
-const { successfulAccount, addressFailsAccount, germanExternalAccount } = require("./exampleAccounts");
+const { successfulAccount, addressFailsAccount, germanExternalAccount, existingBankAccount } = require("./exampleAccounts");
 
 logHttpRequestsAsCurl();
 
 ;(async () => {
   try {
-    const account = await stripe.accounts.create(germanExternalAccount);
+    const account = await stripe.accounts.create(existingBankAccount);
 
     console.log("Created account", account);
   } catch (error) {

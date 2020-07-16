@@ -66,6 +66,10 @@ const idFailsAccount = {
     },
   }
 }
+const existingBankAccount = {
+  ...successfulAccount,
+  external_account: 'ba_1H3HXvIsdauya5mumLB2WTdt'
+}
 
 const minorAccount = {
   ...successfulAccount,
@@ -90,4 +94,4 @@ const germanExternalAccount = {
 
 
 
-module.exports = {successfulAccount, idFailsAccount, addressFailsAccount, germanExternalAccount, minorAccount}
+module.exports = {successfulAccount, idFailsAccount, addressFailsAccount, germanExternalAccount, minorAccount, existingBankAccount}
