@@ -8,7 +8,8 @@ logHttpRequestsAsCurl();
 
 ;(async () => {
   try {
-    const account = await stripe.accounts.create(existingBankAccount);
+    // const account = await stripe.accounts.create(existingBankAccount);
+    const account = await stripe.tokens.create({bank_account: 'ba_1H3HXvIsdauya5mumLB2WTdt'});
 
     console.log("Created account", account);
   } catch (error) {
