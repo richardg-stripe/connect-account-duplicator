@@ -7,14 +7,16 @@ const yargs = require("yargs");
 const stripe = require("./stripe");
 const { delay } = require("./common");
 
-const createAccountObjectForExistingAccount = async accountId => {
+const createAccountObjectForExistingAccount = async (accountId) => {
   const externalAccounts = parseCsv(
     fs.readFileSync("./data/externalAccounts.csv"),
     {
-      columns: true
+      columns: true,
     }
   );
-  const externalAccount = _.find(externalAccounts, { stripeAccountId: accountId });
+  const externalAccount = _.find(externalAccounts, {
+    stripeAccountId: accountId,
+  });
   console.log("External account: ", externalAccount);
   if (!externalAccount) {
     throw new Error(
@@ -38,7 +40,7 @@ const createAccountObjectForExistingAccount = async accountId => {
           dob: _.get(account.individual, "dob"),
           email: _.get(account.individual, "email"),
           first_name: _.get(account.individual, "first_name"),
-          last_name: _.get(account.individual, "last_name")
+          last_name: _.get(account.individual, "last_name"),
         },
         _.isNil
       ),
@@ -48,17 +50,17 @@ const createAccountObjectForExistingAccount = async accountId => {
         account_number: externalAccount.account_number,
         country: externalAccount.country,
         currency: "EUR",
-        object: "bank_account"
+        object: "bank_account",
       },
-      type: "custom"
+      type: "custom",
     },
     _.isNil
   );
 };
 
-const filePathFromName = fileName => path.join("./data", fileName);
+const filePathFromName = (fileName) => path.join("./data", fileName);
 
-const readAccountMappings = fileName => {
+const readAccountMappings = (fileName) => {
   const filePath = filePathFromName(fileName);
   console.log(`reading account mappings from: ${filePath}`);
   if (!fs.existsSync(filePath)) {
@@ -106,7 +108,7 @@ const recreateAccounts = async (
     const accountMapping = {
       oldAccountId: oldAccount.id,
       oldAccountCreated: moment.unix(oldAccount.created).format(),
-      newAccountId: account.id
+      newAccountId: account.id,
     };
     console.log("accountMapping: ", accountMapping);
     insertAccountMapping(
@@ -121,12 +123,10 @@ const recreateAccounts = async (
 };
 
 const doesAccountNeedMigration = async (account, beforeDate, afterDate) => {
-  console.log(account);
   const transfersResponse = await stripe.transfers.list({
     destination: account.id,
-    limit: 1
+    limit: 1,
   });
-  console.log(moment.unix(account.created));
   return (
     _.isEmpty(transfersResponse.data) &&
     !account.payouts_enabled &&
@@ -136,16 +136,14 @@ const doesAccountNeedMigration = async (account, beforeDate, afterDate) => {
 };
 
 const findAccountsToMigrate = async (beforeDate, afterDate, batchSize) => {
+  console.log("Finding accounts to migrate");
   const accounts = [];
-  for await (const account of stripe.accounts.list({ limit: 100 })) {
+  for await (const account of stripe.accounts.list({ limit: 30 })) {
     if (await doesAccountNeedMigration(account, beforeDate, afterDate)) {
       accounts.push(account);
     }
   }
-  return _.chain(accounts)
-    .sortBy("created")
-    .take(batchSize)
-    .value();
+  return _.chain(accounts).sortBy("created").take(batchSize).value();
 };
 
 const getParameters = () => {
@@ -154,29 +152,27 @@ const getParameters = () => {
     .option("delay-seconds", {
       type: "number",
       description: "Delay between account migrations (seconds)",
-      default: 5
+      default: 5,
     })
     .option("before-date", {
       type: "string",
       description: "ISO date RBO was turned on",
-      default: moment()
-        .subtract(1, "year")
-        .format()
+      default: moment().subtract(1, "year").format(),
     })
     .option("account-mapping-output-suffix", {
       type: "string",
       description: "ISO date RBO was turned on",
-      default: "account-mapping-output.json"
+      default: "account-mapping-output.json",
     })
     .option("batch-size", {
       type: "number",
       description: "Accounts to migrate at once",
-      default: 1
+      default: 1,
     })
     .option("dry-run", {
       type: "boolean",
       description: "Should migration write any records to Stripe",
-      default: true
+      default: true,
     }).argv;
 
   console.log("parameters: ", parameters);
@@ -190,7 +186,7 @@ const getParameters = () => {
       beforeDate,
       batchSize,
       delaySeconds,
-      dryRun
+      dryRun,
     } = getParameters();
 
     const existingAccountMappings = readAccountMappings(
