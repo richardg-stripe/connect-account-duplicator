@@ -1,7 +1,6 @@
 const _ = require("lodash");
 const moment = require("moment");
 const stripe = require("./stripe");
-const logHttpRequestsAsCurl = require("./interceptHttpAsCurl");
 
 logHttpRequestsAsCurl();
 

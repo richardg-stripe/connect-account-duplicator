@@ -20,24 +20,27 @@ const createAccount = async createObject => {
   return account;
 };
 
-const doesAccountNeedMigration = async account => {
+const doesAccountNeedMigration = async (account, date) => {
   console.log(account);
   const transfersResponse = await stripe.transfers.list({
     destination: account.id,
     limit: 3
   });
   console.log(transfersResponse);
-  return _.isEmpty(transfersResponse.data) && !account.payouts_enabled;
+  console.log(account)
+  
+  return _.isEmpty(transfersResponse.data) && !account.payouts_enabled && moment(account.created).isBefore(date)
 };
 
-const findRestrictedAccountsToMigrate = async () => {
+const findAccountsToMigrate = async (beforeDate, batchSize) => {
+  const date = moment(beforeDate)
   const accounts = [];
   for await (const account of stripe.accounts.list({ limit: 3 })) {
-    if (await doesAccountNeedMigration(account)) {
+    if (await doesAccountNeedMigration(account, date)) {
       accounts.push(account);
     }
   }
-  return accounts;
+  return _.chain(accounts).sortBy('created').take(batchSize).value()
 };
 
 const getParameters = () => {
@@ -48,10 +51,15 @@ const getParameters = () => {
       description: "Delay between account migrations (seconds)",
       default: 5
     })
-    .option("accounts-since", {
+    .option("before-date", {
       type: "string",
       description: "ISO date RBO was turned on",
       default: moment().add(1, 'day').format()
+    })
+    .option("batch-size", {
+      type: "number",
+      description: "Accounts to migrate at once",
+      default: 1
     })
     .option("dry-run", {
       type: "boolean",
@@ -62,8 +70,12 @@ const getParameters = () => {
 
 (async () => {
   try {
-    console.log(getParameters())
-    // const accountsToMigrate = await findRestrictedAccountsToMigrate();
+    const {
+      beforeDate,
+      batchSize
+    } = getParameters()
+    const accountsToMigrate = await findAccountsToMigrate(beforeDate, batchSize);
+    console.log(accountsToMigrate)
     // console.log(JSON.stringify(accountsToMigrate, null, 2));
     // fs.writeFileSync(
     //   "./accountsToMigrate.json",
