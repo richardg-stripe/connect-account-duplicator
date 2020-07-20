@@ -13,7 +13,25 @@ const {
 const { delay } = require("./common");
 
 const createAccountObjectForExistingAccount = async accountId => {
-  return { hello: "world" };
+  const account = await stripe.accounts.retrieve(accountId);
+
+  return {
+    business_profile: { url: account.business_profile.url },
+    business_type: "individual",
+    country: account.country,
+    email: account.email,
+    external_account: {},
+    individual: {
+      address: account.individual.address,
+      dob: account.individual.dob,
+      email: account.individual.email,
+      first_name: account.individual.first_name,
+      last_name: account.individual.last_name,
+    },
+    requested_capabilities: ['transfers'],
+    tos_acceptance: account.tos_acceptance,
+    type: 'custom'
+  };
 };
 
 const readAccountMappings = filePath => {
@@ -24,14 +42,18 @@ const readAccountMappings = filePath => {
 };
 
 const insertAccountMapping = (accountMapping, filePath) => {
-  console.log(`writing to: ${filePath}`)
+  console.log(`writing to: ${filePath}`);
   const existingAccountMappings = readAccountMappings(filePath);
-  fs.writeFileSync(filePath, JSON.stringify([...existingAccountMappings, accountMapping], null, 2));
+  fs.writeFileSync(
+    filePath,
+    JSON.stringify([...existingAccountMappings, accountMapping], null, 2)
+  );
 };
 
 const recreateAccount = async (accountId, dryRun = true) => {
-  console.log("creating account");
+  console.log(`recreating account for accountId: ${accountId}`);
   const createObject = await createAccountObjectForExistingAccount(accountId);
+  console.log(`create account object: ${createObject}`);
   let account;
   if (dryRun === false) {
     account = await stripe.accounts.create(createObject);
@@ -42,7 +64,12 @@ const recreateAccount = async (accountId, dryRun = true) => {
   return account;
 };
 
-const recreateAccounts = async (oldAccounts, filePath, delaySeconds, dryRun = true) => {
+const recreateAccounts = async (
+  oldAccounts,
+  filePath,
+  delaySeconds,
+  dryRun = true
+) => {
   const time = moment().format();
   const accounts = [];
   for (const oldAccount of oldAccounts) {
@@ -53,11 +80,14 @@ const recreateAccounts = async (oldAccounts, filePath, delaySeconds, dryRun = tr
       newAccountId: account.id
     };
     console.log("accountMapping: ", accountMapping);
-    insertAccountMapping(accountMapping, `${dryRun ? 'dryRun' : ''}${time}-${filePath}`);
+    insertAccountMapping(
+      accountMapping,
+      `${dryRun ? "dryRun" : ""}${time}-${filePath}`
+    );
     if (!dryRun) {
       insertAccountMapping(accountMapping, filePath);
     }
-    await delay(delaySeconds * 1000)
+    await delay(delaySeconds * 1000);
   }
 };
 
@@ -119,9 +149,9 @@ const getParameters = () => {
       description: "Should migration write any records to Stripe",
       default: true
     }).argv;
-  
-  console.log('parameters: ', parameters)
-  return parameters
+
+  console.log("parameters: ", parameters);
+  return parameters;
 };
 
 (async () => {
@@ -133,11 +163,18 @@ const getParameters = () => {
       delaySeconds,
       dryRun
     } = getParameters();
-    
-    const existingAccountMappings = readAccountMappings(accountMappingOutputSuffix)
-    const afterDateString = _.chain(existingAccountMappings).map('oldAccountCreated').max().value()
-    const afterDate = afterDateString ? moment(afterDateString) : moment().subtract(1, 'year')
-    console.log('afterDate: ', afterDate.format())
+
+    const existingAccountMappings = readAccountMappings(
+      accountMappingOutputSuffix
+    );
+    const afterDateString = _.chain(existingAccountMappings)
+      .map("oldAccountCreated")
+      .max()
+      .value();
+    const afterDate = afterDateString
+      ? moment(afterDateString)
+      : moment().subtract(1, "year");
+    console.log("afterDate: ", afterDate.format());
     const accountsToMigrate = await findAccountsToMigrate(
       moment(beforeDate),
       moment(afterDate),
