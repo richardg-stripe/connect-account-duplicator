@@ -10,7 +10,7 @@ const {
   germanExternalAccount,
   minorAccount
 } = require("./exampleAccounts");
-const { keypress } = require("./common");
+const { delay } = require("./common");
 
 const createAccountObjectForExistingAccount = async accountId => {
   return { hello: "world" };
@@ -24,6 +24,7 @@ const readAccountMappings = filePath => {
 };
 
 const insertAccountMapping = (accountMapping, filePath) => {
+  console.log(`writing to: ${filePath}`)
   const existingAccountMappings = readAccountMappings(filePath);
   fs.writeFileSync(filePath, JSON.stringify([...existingAccountMappings, accountMapping], null, 2));
 };
@@ -41,7 +42,7 @@ const recreateAccount = async (accountId, dryRun = true) => {
   return account;
 };
 
-const recreateAccounts = async (oldAccounts, filePath, dryRun = true) => {
+const recreateAccounts = async (oldAccounts, filePath, delaySeconds, dryRun = true) => {
   const time = moment().format();
   const accounts = [];
   for (const oldAccount of oldAccounts) {
@@ -52,8 +53,11 @@ const recreateAccounts = async (oldAccounts, filePath, dryRun = true) => {
       newAccountId: account.id
     };
     console.log("accountMapping: ", accountMapping);
-    insertAccountMapping(accountMapping, `${time}-${filePath}`);
-    insertAccountMapping(accountMapping, filePath);
+    insertAccountMapping(accountMapping, `${dryRun ? 'dryRun' : ''}${time}-${filePath}`);
+    if (!dryRun) {
+      insertAccountMapping(accountMapping, filePath);
+    }
+    await delay(delaySeconds * 1000)
   }
 };
 
@@ -63,8 +67,6 @@ const doesAccountNeedMigration = async (account, beforeDate, afterDate) => {
     destination: account.id,
     limit: 1
   });
-  // console.log(transfersResponse);
-  // console.log(account)
   console.log(moment.unix(account.created));
   return (
     _.isEmpty(transfersResponse.data) &&
@@ -90,7 +92,7 @@ const findAccountsToMigrate = async (beforeDate, afterDate, batchSize) => {
 const getParameters = () => {
   const parameters = yargs
     .command("migrated accounts to RBO")
-    .option("delay", {
+    .option("delay-seconds", {
       type: "number",
       description: "Delay between account migrations (seconds)",
       default: 5
@@ -128,6 +130,7 @@ const getParameters = () => {
       accountMappingOutputSuffix,
       beforeDate,
       batchSize,
+      delaySeconds,
       dryRun
     } = getParameters();
     
@@ -145,6 +148,7 @@ const getParameters = () => {
     await recreateAccounts(
       accountsToMigrate,
       accountMappingOutputSuffix,
+      delaySeconds,
       dryRun
     );
     // console.log(JSON.stringify(accountsToMigrate, null, 2));
