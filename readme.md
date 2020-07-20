@@ -7,6 +7,8 @@ Node 12.
 
 `.env` should contain: `STRIPE_SECRET_KEY=sk_xyz`
 
+Put your external account information in `./data/externalAccounts.csv` (keep the column headings the same)
+
 ## Usage
 
 

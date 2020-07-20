@@ -6,6 +6,7 @@
     "migrate": "node src/migrateAccounts.js"
   },
   "dependencies": {
+    "csv-parse": "^4.11.1",
     "dotenv": "^8.2.0",
     "lodash": "^4.17.15",
     "moment": "^2.25.3",

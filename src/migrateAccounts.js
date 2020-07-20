@@ -2,11 +2,25 @@ const fs = require("fs");
 const path = require("path");
 const _ = require("lodash");
 const moment = require("moment");
+const parseCsv = require("csv-parse/lib/sync");
 const yargs = require("yargs");
 const stripe = require("./stripe");
 const { delay } = require("./common");
 
 const createAccountObjectForExistingAccount = async accountId => {
+  const externalAccounts = parseCsv(
+    fs.readFileSync("./data/externalAccounts.csv"),
+    {
+      columns: true
+    }
+  );
+  const externalAccount = _.find(externalAccounts, { accountId: accountId });
+  console.log("External account: ", externalAccount);
+  if (!externalAccount) {
+    throw new Error(
+      `Couldn't find external account for account id: ${accountId}`
+    );
+  }
   const account = await stripe.accounts.retrieve(accountId);
 
   return _.omitBy(
@@ -18,7 +32,6 @@ const createAccountObjectForExistingAccount = async accountId => {
       business_type: "individual",
       country: account.country,
       email: account.email,
-      external_account: {},
       individual: _.omitBy(
         {
           address: _.get(account.individual, "address"),
@@ -31,6 +44,11 @@ const createAccountObjectForExistingAccount = async accountId => {
       ),
       requested_capabilities: ["transfers"],
       tos_acceptance: account.tos_acceptance,
+      external_account: {
+        ...externalAccount,
+        currency: "EUR",
+        object: "bank_account"
+      },
       type: "custom"
     },
     _.isNil
@@ -41,7 +59,7 @@ const filePathFromName = fileName => path.join("./data", fileName);
 
 const readAccountMappings = fileName => {
   const filePath = filePathFromName(fileName);
-  console.log(`reading account mappings from: ${filePath}`)
+  console.log(`reading account mappings from: ${filePath}`);
   if (!fs.existsSync(filePath)) {
     return [];
   }
