@@ -2,8 +2,6 @@ const _ = require("lodash");
 const moment = require("moment");
 const stripe = require("./stripe");
 
-logHttpRequestsAsCurl();
-
 const successfulAccount = {
   type: "custom",
   country: "NL",
