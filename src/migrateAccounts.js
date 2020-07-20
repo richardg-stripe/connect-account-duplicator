@@ -14,7 +14,7 @@ const createAccountObjectForExistingAccount = async accountId => {
       columns: true
     }
   );
-  const externalAccount = _.find(externalAccounts, { accountId: accountId });
+  const externalAccount = _.find(externalAccounts, { stripeAccountId: accountId });
   console.log("External account: ", externalAccount);
   if (!externalAccount) {
     throw new Error(
@@ -45,7 +45,8 @@ const createAccountObjectForExistingAccount = async accountId => {
       requested_capabilities: ["transfers"],
       tos_acceptance: account.tos_acceptance,
       external_account: {
-        ...externalAccount,
+        account_number: externalAccount.account_number,
+        country: externalAccount.country,
         currency: "EUR",
         object: "bank_account"
       },
