@@ -1,15 +1,9 @@
 const fs = require("fs");
+const path = require("path");
 const _ = require("lodash");
 const moment = require("moment");
 const yargs = require("yargs");
 const stripe = require("./stripe");
-const {
-  successfulAccount,
-  idFailsAccount,
-  addressFailsAccount,
-  germanExternalAccount,
-  minorAccount
-} = require("./exampleAccounts");
 const { delay } = require("./common");
 
 const createAccountObjectForExistingAccount = async accountId => {
@@ -43,16 +37,21 @@ const createAccountObjectForExistingAccount = async accountId => {
   );
 };
 
-const readAccountMappings = filePath => {
+const filePathFromName = fileName => path.join("./data", fileName);
+
+const readAccountMappings = fileName => {
+  const filePath = filePathFromName(fileName);
+  console.log(`reading account mappings from: ${filePath}`)
   if (!fs.existsSync(filePath)) {
     return [];
   }
   return JSON.parse(fs.readFileSync(filePath));
 };
 
-const insertAccountMapping = (accountMapping, filePath) => {
+const insertAccountMapping = (accountMapping, fileName) => {
+  const filePath = filePathFromName(fileName);
   console.log(`writing to: ${filePath}`);
-  const existingAccountMappings = readAccountMappings(filePath);
+  const existingAccountMappings = readAccountMappings(fileName);
   fs.writeFileSync(
     filePath,
     JSON.stringify([...existingAccountMappings, accountMapping], null, 2)
