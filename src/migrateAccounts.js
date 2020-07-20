@@ -25,7 +25,7 @@ const readAccountMappings = filePath => {
 
 const insertAccountMapping = (accountMapping, filePath) => {
   const existingAccountMappings = readAccountMappings(filePath);
-  fs.writeFileSync(filePath, [...existingAccountMappings, accountMapping]);
+  fs.writeFileSync(filePath, JSON.stringify([...existingAccountMappings, accountMapping], null, 2));
 };
 
 const recreateAccount = async (accountId, dryRun = true) => {
@@ -45,7 +45,7 @@ const recreateAccounts = async (oldAccounts, filePath, dryRun = true) => {
   const time = moment().format();
   const accounts = [];
   for (const oldAccount of oldAccounts) {
-    const account = recreateAccount(oldAccount.id, dryRun);
+    const account = await recreateAccount(oldAccount.id, dryRun);
     const accountMapping = {
       oldAccountId: oldAccount.id,
       oldAccountCreated: moment.unix(oldAccount.created).format(),
@@ -57,7 +57,7 @@ const recreateAccounts = async (oldAccounts, filePath, dryRun = true) => {
   }
 };
 
-const doesAccountNeedMigration = async (account, date) => {
+const doesAccountNeedMigration = async (account, beforeDate, afterDate) => {
   console.log(account);
   const transfersResponse = await stripe.transfers.list({
     destination: account.id,
@@ -69,15 +69,15 @@ const doesAccountNeedMigration = async (account, date) => {
   return (
     _.isEmpty(transfersResponse.data) &&
     !account.payouts_enabled &&
-    moment.unix(account.created).isBefore(date)
+    moment.unix(account.created).isBefore(beforeDate) &&
+    moment.unix(account.created).isAfter(afterDate)
   );
 };
 
-const findAccountsToMigrate = async (beforeDate, batchSize) => {
-  const date = moment(beforeDate);
+const findAccountsToMigrate = async (beforeDate, afterDate, batchSize) => {
   const accounts = [];
   for await (const account of stripe.accounts.list({ limit: 100 })) {
-    if (await doesAccountNeedMigration(account, date)) {
+    if (await doesAccountNeedMigration(account, beforeDate, afterDate)) {
       accounts.push(account);
     }
   }
@@ -130,13 +130,18 @@ const getParameters = () => {
       batchSize,
       dryRun
     } = getParameters();
+    
+    const existingAccountMappings = readAccountMappings(accountMappingOutputSuffix)
+    const afterDateString = _.chain(existingAccountMappings).map('oldAccountCreated').max().value()
+    const afterDate = afterDateString ? moment(afterDateString) : moment().subtract(1, 'year')
+    console.log('afterDate: ', afterDate.format())
     const accountsToMigrate = await findAccountsToMigrate(
-      beforeDate,
+      moment(beforeDate),
+      moment(afterDate),
       batchSize
     );
     console.log("accountsToMigrate", accountsToMigrate);
     console.log("accountsToMigrate count", _.size(accountsToMigrate));
-
     await recreateAccounts(
       accountsToMigrate,
       accountMappingOutputSuffix,
