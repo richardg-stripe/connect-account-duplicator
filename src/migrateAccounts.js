@@ -15,23 +15,32 @@ const { delay } = require("./common");
 const createAccountObjectForExistingAccount = async accountId => {
   const account = await stripe.accounts.retrieve(accountId);
 
-  return {
-    business_profile: { url: account.business_profile.url },
-    business_type: "individual",
-    country: account.country,
-    email: account.email,
-    external_account: {},
-    individual: {
-      address: _.get(account.individual, 'address'),
-      dob: _.get(account.individual, 'dob'),
-      email: _.get(account.individual, 'email'),
-      first_name: _.get(account.individual, 'first_name'),
-      last_name: _.get(account.individual, 'last_name'),
+  return _.omitBy(
+    {
+      business_profile: _.omitBy(
+        { url: account.business_profile.url },
+        _.isNil
+      ),
+      business_type: "individual",
+      country: account.country,
+      email: account.email,
+      external_account: {},
+      individual: _.omitBy(
+        {
+          address: _.get(account.individual, "address"),
+          dob: _.get(account.individual, "dob"),
+          email: _.get(account.individual, "email"),
+          first_name: _.get(account.individual, "first_name"),
+          last_name: _.get(account.individual, "last_name")
+        },
+        _.isNil
+      ),
+      requested_capabilities: ["transfers"],
+      tos_acceptance: account.tos_acceptance,
+      type: "custom"
     },
-    requested_capabilities: ['transfers'],
-    tos_acceptance: account.tos_acceptance,
-    type: 'custom'
-  };
+    _.isNil
+  );
 };
 
 const readAccountMappings = filePath => {
@@ -53,7 +62,9 @@ const insertAccountMapping = (accountMapping, filePath) => {
 const recreateAccount = async (accountId, dryRun = true) => {
   console.log(`recreating account for accountId: ${accountId}`);
   const createObject = await createAccountObjectForExistingAccount(accountId);
-  console.log(`create account object: ${JSON.stringify(createObject, null, 2)}`);
+  console.log(
+    `create account object: ${JSON.stringify(createObject, null, 2)}`
+  );
   let account;
   if (dryRun === false) {
     account = await stripe.accounts.create(createObject);
@@ -180,7 +191,10 @@ const getParameters = () => {
       moment(afterDate),
       batchSize
     );
-    console.log("accountsToMigrate", JSON.stringify(accountsToMigrate, null, 2));
+    console.log(
+      "accountsToMigrate",
+      JSON.stringify(accountsToMigrate, null, 2)
+    );
     console.log("accountsToMigrate count", _.size(accountsToMigrate));
     await recreateAccounts(
       accountsToMigrate,
@@ -188,11 +202,6 @@ const getParameters = () => {
       delaySeconds,
       dryRun
     );
-    // console.log(JSON.stringify(accountsToMigrate, null, 2));
-    // fs.writeFileSync(
-    //   "./accountsToMigrate.json",
-    //   JSON.stringify(accountsToMigrate, null, 2)
-    // );
   } catch (error) {
     console.error(error);
   }

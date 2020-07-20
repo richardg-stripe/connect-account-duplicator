@@ -1,45 +1,5 @@
 [
   {
-    "oldAccountId": "acct_1GsUcOJZpqYqnyVy",
-    "oldAccountCreated": "2020-06-10T14:09:29+00:00",
-    "newAccountId": "acct_dummy123"
-  },
-  {
-    "oldAccountId": "acct_1GsUiWB7DqGZ7T2b",
-    "oldAccountCreated": "2020-06-10T14:15:49+00:00",
-    "newAccountId": "acct_dummy123"
-  },
-  {
-    "oldAccountId": "acct_1GsUifKOFPaEg5wl",
-    "oldAccountCreated": "2020-06-10T14:15:58+00:00",
-    "newAccountId": "acct_dummy123"
-  },
-  {
-    "oldAccountId": "acct_1GsUlLB2oWIg2xCH",
-    "oldAccountCreated": "2020-06-10T14:18:44+00:00",
-    "newAccountId": "acct_1H6zvMAhEPm8VgEr"
-  },
-  {
-    "oldAccountId": "acct_1GsUn1KM6sWrhiWR",
-    "oldAccountCreated": "2020-06-10T14:20:28+00:00",
-    "newAccountId": "acct_1H6zwzB4Hl6WZE16"
-  },
-  {
-    "oldAccountId": "acct_1GsUsXGgpqVmirun",
-    "oldAccountCreated": "2020-06-10T14:26:10+00:00",
-    "newAccountId": "acct_1H6zyUGW0tvn2ruO"
-  },
-  {
-    "oldAccountId": "acct_1GsUvGLykyb58xcl",
-    "oldAccountCreated": "2020-06-10T14:28:59+00:00",
-    "newAccountId": "acct_1H7073CkEn1j5OmQ"
-  },
-  {
-    "oldAccountId": "acct_1GsUwMEIppNlNlSi",
-    "oldAccountCreated": "2020-06-10T14:30:08+00:00",
-    "newAccountId": "acct_1H7079Ixw8HJXxxn"
-  },
-  {
     "oldAccountId": "acct_1GuyIUCUGwHrYAQA",
     "oldAccountCreated": "2020-06-17T10:15:10+00:00",
     "newAccountId": "acct_1H70BrDeiI2NVAFq"
