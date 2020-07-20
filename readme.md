@@ -1,27 +1,21 @@
-## Testing account verification
+## Prerequisites
 
-Docs: [https://stripe.com/docs/connect/testing](https://stripe.com/docs/connect/testing)
+Node 12. 
 
-## Create an account which succeeds verification
+`npm install`
 
-See the code in [src/createAccount.js](https://glitch.com/edit/#!/uw-stripe-account-demo?path=src%2FcreateAccount.js%3A37%3A15)
 
-Set `STRIPE_SECRET_KEY=sk_test_my_secret_key` in `.env` file
-```
-npm install
-npm run createAccount
-```
+`.env` should contain: `STRIPE_SECRET_KEY=sk_xyz`
 
-## Monitoring webhooks
+## Usage
 
-Download [stripe-cli](https://stripe.com/docs/stripe-cli#install)
 
-run: 
+`npm run migrate -- --help`
 
-```
-stripe login
+Example usage
+`npm run migrate -- --before-date=2020-07-20 --dry-run=false --batch-size=10`
 
-stripe listen --print-json --events account.updated
-```
+This command finds accounts eligible to migrate: no transfers, before before-date (RBO go live date), payouts disabled, and after the last processed account date.
 
-Wait for ~1-2 minutes
+Accounts are processed in order of creation
+
