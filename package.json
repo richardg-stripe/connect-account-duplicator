@@ -1,11 +1,9 @@
 {
-  "name": "limited-payees-example",
+  "name": "rbo-migrator",
   "version": "0.0.1",
   "main": "server.js",
   "scripts": {
-    "fillUpAccountBalance": "node src/fillUpAccountBalance.js",
-    "createAccount": "node src/createAccount.js",
-    "updateAccount": "node src/updateAccount.js"
+    "migrate": "node src/migrateAccounts.js"
   },
   "dependencies": {
     "dotenv": "^8.2.0",

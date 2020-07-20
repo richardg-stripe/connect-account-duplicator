@@ -1,6 +1,7 @@
 const fs = require("fs");
 const _ = require("lodash");
 const moment = require("moment");
+const yargs = require("yargs");
 const stripe = require("./stripe");
 const {
   successfulAccount,
@@ -25,7 +26,7 @@ const doesAccountNeedMigration = async account => {
     destination: account.id,
     limit: 3
   });
-  console.log(transfersResponse)
+  console.log(transfersResponse);
   return _.isEmpty(transfersResponse.data) && !account.payouts_enabled;
 };
 
@@ -39,11 +40,35 @@ const findRestrictedAccountsToMigrate = async () => {
   return accounts;
 };
 
+const getParameters = () => {
+  return yargs
+    .command("migrated accounts to RBO")
+    .option("delay", {
+      type: "number",
+      description: "Delay between account migrations (seconds)",
+      default: 5
+    })
+    .option("accounts-since", {
+      type: "string",
+      description: "ISO date RBO was turned on",
+      default: moment().add(1, 'day').format()
+    })
+    .option("dry-run", {
+      type: "boolean",
+      description: "Should migration write any records to Stripe",
+      default: true
+    }).argv;
+};
+
 (async () => {
   try {
-    const accountsToMigrate = await findRestrictedAccountsToMigrate()
-    console.log(JSON.stringify(accountsToMigrate, null, 2));
-    fs.writeFileSync('./accountsToMigrate.json', JSON.stringify(accountsToMigrate, null, 2))
+    console.log(getParameters())
+    // const accountsToMigrate = await findRestrictedAccountsToMigrate();
+    // console.log(JSON.stringify(accountsToMigrate, null, 2));
+    // fs.writeFileSync(
+    //   "./accountsToMigrate.json",
+    //   JSON.stringify(accountsToMigrate, null, 2)
+    // );
   } catch (error) {
     console.error(error);
   }
