@@ -22,11 +22,11 @@ const createAccountObjectForExistingAccount = async accountId => {
     email: account.email,
     external_account: {},
     individual: {
-      address: account.individual.address,
-      dob: account.individual.dob,
-      email: account.individual.email,
-      first_name: account.individual.first_name,
-      last_name: account.individual.last_name,
+      address: _.get(account.individual, 'address'),
+      dob: _.get(account.individual, 'dob'),
+      email: _.get(account.individual, 'email'),
+      first_name: _.get(account.individual, 'first_name'),
+      last_name: _.get(account.individual, 'last_name'),
     },
     requested_capabilities: ['transfers'],
     tos_acceptance: account.tos_acceptance,
@@ -53,7 +53,7 @@ const insertAccountMapping = (accountMapping, filePath) => {
 const recreateAccount = async (accountId, dryRun = true) => {
   console.log(`recreating account for accountId: ${accountId}`);
   const createObject = await createAccountObjectForExistingAccount(accountId);
-  console.log(`create account object: ${createObject}`);
+  console.log(`create account object: ${JSON.stringify(createObject, null, 2)}`);
   let account;
   if (dryRun === false) {
     account = await stripe.accounts.create(createObject);
@@ -180,7 +180,7 @@ const getParameters = () => {
       moment(afterDate),
       batchSize
     );
-    console.log("accountsToMigrate", accountsToMigrate);
+    console.log("accountsToMigrate", JSON.stringify(accountsToMigrate, null, 2));
     console.log("accountsToMigrate count", _.size(accountsToMigrate));
     await recreateAccounts(
       accountsToMigrate,
