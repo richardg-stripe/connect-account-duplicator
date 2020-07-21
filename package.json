@@ -1,5 +1,5 @@
 {
-  "name": "rbo-migrator",
+  "name": "connect-account-duplicator",
   "version": "0.0.1",
   "main": "server.js",
   "scripts": {
@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "csv-parse": "^4.11.1",
+    "csv-stringify": "^5.5.0",
     "dotenv": "^8.2.0",
     "lodash": "^4.17.15",
     "moment": "^2.25.3",

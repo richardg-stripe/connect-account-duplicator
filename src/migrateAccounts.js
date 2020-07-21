@@ -3,6 +3,7 @@ const path = require("path");
 const _ = require("lodash");
 const moment = require("moment");
 const parseCsv = require("csv-parse/lib/sync");
+const csvStringify = require("csv-stringify/lib/sync");
 const yargs = require("yargs");
 const stripe = require("./stripe");
 const { delay } = require("./common");
@@ -60,8 +61,15 @@ const createAccountObjectForExistingAccount = async (accountId) => {
 
 const filePathFromName = (fileName) => path.join("./data", fileName);
 
+const writeAccountMappingsAsCSV = (fileName) => {
+  const accountMappings = readAccountMappings(fileName);
+  const accountMappingsCsv = csvStringify(accountMappings, { header: true });
+  fs.writeFileSync(filePathFromName(`${fileName}.csv`), accountMappingsCsv);
+};
+
 const readAccountMappings = (fileName) => {
-  const filePath = filePathFromName(fileName);
+  const fileNameWithExtension = `${fileName}.json`;
+  const filePath = filePathFromName(fileNameWithExtension);
   console.log(`reading account mappings from: ${filePath}`);
   if (!fs.existsSync(filePath)) {
     return [];
@@ -70,7 +78,9 @@ const readAccountMappings = (fileName) => {
 };
 
 const insertAccountMapping = (accountMapping, fileName) => {
-  const filePath = filePathFromName(fileName);
+  const fileNameWithExtension = `${fileName}.json`;
+
+  const filePath = filePathFromName(fileNameWithExtension);
   console.log(`writing to: ${filePath}`);
   const existingAccountMappings = readAccountMappings(fileName);
   fs.writeFileSync(
@@ -162,7 +172,7 @@ const getParameters = () => {
     .option("account-mapping-output-suffix", {
       type: "string",
       description: "ISO date RBO was turned on",
-      default: "account-mapping-output.json",
+      default: "account-mapping-output",
     })
     .option("batch-size", {
       type: "number",
@@ -216,6 +226,11 @@ const getParameters = () => {
       delaySeconds,
       dryRun
     );
+    if (!dryRun) {
+      writeAccountMappingsAsCSV(accountMappingOutputSuffix);
+    }
+
+    //todo: test in QA for UW
   } catch (error) {
     console.error(error);
   }
