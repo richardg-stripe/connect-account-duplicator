@@ -229,8 +229,6 @@ const getParameters = () => {
     if (!dryRun) {
       writeAccountMappingsAsCSV(accountMappingOutputSuffix);
     }
-
-    //todo: test in QA for UW
   } catch (error) {
     console.error(error);
   }
