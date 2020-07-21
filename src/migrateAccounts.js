@@ -112,7 +112,6 @@ const recreateAccounts = async (
   dryRun = true
 ) => {
   const time = moment().format();
-  const accounts = [];
   for (const oldAccount of oldAccounts) {
     const account = await recreateAccount(oldAccount.id, dryRun);
     const accountMapping = {
