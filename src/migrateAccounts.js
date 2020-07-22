@@ -35,6 +35,10 @@ const createAccountObjectForExistingAccount = async (accountId) => {
       business_type: "individual",
       country: account.country,
       email: account.email,
+      metadata: {
+        ...account.metadata,
+        oldStripeAccountId: accountId,
+      },
       individual: _.omitBy(
         {
           address: _.get(account.individual, "address"),
