@@ -9,7 +9,7 @@
     "csv-parse": "^4.11.1",
     "csv-stringify": "^5.5.0",
     "dotenv": "^8.2.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "moment": "^2.25.3",
     "stripe": "^8.51.0",
     "urijs": "^1.19.2",
